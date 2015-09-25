@@ -25,10 +25,12 @@ end
 def get_image
   response = request_image("https://c.xkcd.com/random/comic/")
   document = Oga.parse_html(response.body)
-  img = document.css('#comic img').first
-  image = {}
+  img = document.at_css('#comic img')
+  header = document.at_css('#ctitle')
+  image = Hash.new
   image[:url] = img.attribute('src')
-  image[:title] = img.attribute('title')
+  image[:description] = img.attribute('title')
+  image[:title] = header.text
   return image
 end
 
@@ -36,6 +38,7 @@ get '/' do
   image = get_image
   @url = image[:url]
   @title = image[:title]
+  @description = image[:description]
   erb :index
 end
 
