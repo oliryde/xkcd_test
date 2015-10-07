@@ -25,4 +25,4 @@ function setImage() {
 
 setImage();
 
-window.setInterval("setImage()", 30000);
+window.setInterval("setImage()", 120000);
