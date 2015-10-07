@@ -1,7 +1,7 @@
 require 'oga'
 require 'sinatra'
-require 'sinatra/json'
-require 'sinatra/reloader'
+require 'sinatra/reloader' if development?
+require 'json'
 require "net/https"
 require "uri"
 
@@ -31,6 +31,7 @@ def get_image
   image[:url] = img.attribute('src')
   image[:description] = img.attribute('title')
   image[:title] = header.text
+  puts image
   return image
 end
 
@@ -47,5 +48,6 @@ get '/json' do
 end
 
 get '/image.json' do
-  json get_image
+  content_type :json
+  get_image.to_json
 end
